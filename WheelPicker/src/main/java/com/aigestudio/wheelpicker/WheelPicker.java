@@ -36,6 +36,8 @@ import java.util.List;
  * @version 1.1.0
  */
 public class WheelPicker extends View implements IDebug, IWheelPicker, Runnable {
+
+    Context _context;
     /**
      * 滚动状态标识值
      *
@@ -282,7 +284,7 @@ public class WheelPicker extends View implements IDebug, IWheelPicker, Runnable 
 
     public WheelPicker(Context context, AttributeSet attrs) {
         super(context, attrs);
-
+        _context = context;
         TypedArray a = context.obtainStyledAttributes(attrs, R.styleable.WheelPicker);
         int idData = a.getResourceId(R.styleable.WheelPicker_wheel_data, 0);
         mData = Arrays.asList(getResources()
@@ -318,6 +320,7 @@ public class WheelPicker extends View implements IDebug, IWheelPicker, Runnable 
 
         mPaint = new Paint(Paint.ANTI_ALIAS_FLAG | Paint.DITHER_FLAG | Paint.LINEAR_TEXT_FLAG);
         mPaint.setTextSize(mItemTextSize);
+        mPaint.setTypeface(GetTypeFace("IRANSansWeb_Medium.ttf"));
 
         // 更新文本对齐方式
         // Update alignment of text
@@ -1162,5 +1165,9 @@ public class WheelPicker extends View implements IDebug, IWheelPicker, Runnable 
          *              Express WheelPicker in state of scrolling
          */
         void onWheelScrollStateChanged(int state);
+    }
+    private Typeface GetTypeFace(String fontName){
+        Typeface face = Typeface.createFromAsset(_context.getAssets(), "fonts/" + fontName);
+        return face;
     }
 }
